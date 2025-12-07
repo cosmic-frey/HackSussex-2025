@@ -1,0 +1,1765 @@
+# 🎮 SHADOW MAGE - COMPLETE CODE EXPLANATION
+
+**Game:** Password Quest / Shadow Mage  
+**Framework:** Phaser 3  
+**Language:** JavaScript  
+**Purpose:** Hackathon project with Auth0, ElevenLabs, Cloudflare, Vultr integration
+
+---
+
+## 📁 TABLE OF CONTENTS
+
+1. [Project Structure](#project-structure)
+2. [Entry Point (index.html)](#entry-point)
+3. [Game Configuration (main.js)](#game-configuration)
+4. [MenuScene - Main Menu](#menuscene)
+5. [GameScene - Level 1 Gameplay](#gamescene)
+6. [BossScene - Dragon Fight](#bossscene)
+7. [Key Programming Concepts](#key-concepts)
+8. [How Everything Works Together](#how-it-works)
+
+---
+
+## 📁 PROJECT STRUCTURE
+
+```
+HackSussex/gaming/
+├── index.html              ← Entry point (HTML page)
+├── package.json            ← Dependencies (Phaser, Vite)
+├── vite.config.js          ← Build tool configuration
+├── src/
+│   ├── main.js            ← Game configuration & startup
+│   └── scenes/            ← Game screens (like levels)
+│       ├── BootScene.js       ← Initial setup
+│       ├── PreloadScene.js    ← Load assets
+│       ├── MenuScene.js       ← Main menu
+│       ├── GameScene.js       ← Level 1 gameplay
+│       ├── BossScene.js       ← Dragon fight
+│       └── GameOverScene.js   ← Victory/defeat
+```
+
+**Why this structure?**
+- **Scenes** = Different screens in your game (menu, gameplay, boss fight)
+- Separating scenes makes code organized and easier to debug
+- Each scene is independent and can be tested separately
+- Follows industry-standard game architecture
+
+---
+
+## 🌐 ENTRY POINT - index.html
+
+### The HTML Structure
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Quest</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: Arial, sans-serif;
+        }
+        #game-container {
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container"></div>
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>
+```
+
+### What's Happening Here:
+
+**`<div id="game-container"></div>`**
+- This is where Phaser will inject the game canvas
+- Think of it as a placeholder for your game
+
+**`<script type="module" src="/src/main.js"></script>`**
+- Loads main.js as a JavaScript module
+- `type="module"` allows us to use `import` statements
+- Vite processes this and bundles all dependencies
+
+**CSS Styling:**
+- `display: flex` + `justify-content: center` + `align-items: center` = Centers the game
+- `background: linear-gradient(...)` = Purple gradient background
+- `box-shadow` = Adds depth to the game container
+- `border-radius: 10px` = Rounded corners for polish
+
+---
+
+## ⚙️ GAME CONFIGURATION - main.js
+
+### The Complete Code
+
+```javascript
+import Phaser from 'phaser';
+import BootScene from './scenes/BootScene.js';
+import PreloadScene from './scenes/PreloadScene.js';
+import MenuScene from './scenes/MenuScene.js';
+import GameScene from './scenes/GameScene.js';
+import BossScene from './scenes/BossScene.js';
+import GameOverScene from './scenes/GameOverScene.js';
+
+// Game configuration
+const config = {
+    type: Phaser.AUTO,
+    width: 800,
+    height: 600,
+    parent: 'game-container',
+    backgroundColor: '#2d2d2d',
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 800 },
+            debug: false
+        }
+    },
+    scene: [
+        BootScene,
+        PreloadScene,
+        MenuScene,
+        GameScene,
+        BossScene,
+        GameOverScene
+    ]
+};
+
+// Create the game instance
+const game = new Phaser.Game(config);
+
+// Make game instance globally accessible for debugging
+window.game = game;
+```
+
+### Breaking Down Each Setting:
+
+**`type: Phaser.AUTO`**
+- Phaser automatically chooses the best renderer
+- Tries WebGL first (faster, hardware-accelerated)
+- Falls back to Canvas if WebGL isn't supported
+- **Why:** Maximum compatibility across browsers
+
+**`width: 800, height: 600`**
+- Game canvas size in pixels
+- 800x600 is a classic resolution (4:3 aspect ratio)
+- **Why:** Easy to work with, fits most screens
+
+**`parent: 'game-container'`**
+- Tells Phaser which HTML element to inject the canvas into
+- Matches the `<div id="game-container">` in index.html
+- **Why:** Gives us control over where the game appears
+
+**`backgroundColor: '#2d2d2d'`**
+- Fallback background color (dark gray)
+- Only visible if scenes don't cover the entire canvas
+- **Why:** Better than default black, looks more polished
+
+**`physics: { default: 'arcade' }`**
+- Arcade physics = Simple, fast collision detection
+- Perfect for 2D platformers and action games
+- **Alternative:** Matter.js (complex physics with rotation, joints)
+- **Why Arcade:** Simpler, faster, sufficient for our game
+
+**`gravity: { y: 800 }`**
+- Pulls objects downward at 800 pixels/second²
+- Higher number = falls faster
+- Lower number = floaty, moon-like jumps
+- **Why 800:** Standard for platformers, feels natural
+
+**`debug: false`**
+- When `true`, shows collision boxes and physics bodies
+- Useful for debugging, but ugly in production
+- **Set to `true` when testing collision issues**
+
+**`scene: [...]`**
+- Array of scenes in order
+- First scene (BootScene) runs automatically
+- Each scene can transition to another
+- **Order matters:** Boot → Preload → Menu → Game → Boss → GameOver
+
+**`window.game = game`**
+- Makes game accessible in browser console
+- Useful for debugging: `window.game.scene.scenes[0]`
+- **Why:** Helps troubleshoot issues during development
+
+---
+
+## 🎬 MENUSCENE - Main Menu
+
+### Scene Structure
+
+Every Phaser scene has three main methods:
+1. **`constructor()`** - Runs once when scene is created
+2. **`create()`** - Runs when scene starts (setup UI, objects)
+3. **`update()`** - Runs every frame (game loop)
+
+### Constructor
+
+```javascript
+constructor() {
+    super({ key: 'MenuScene' });
+}
+```
+
+**What's happening:**
+- `super()` calls the parent class (Phaser.Scene) constructor
+- `{ key: 'MenuScene' }` registers this scene with a unique identifier
+- Other scenes use this key to transition: `this.scene.start('MenuScene')`
+
+### create() Method - Building the Menu
+
+```javascript
+create() {
+    const width = this.cameras.main.width;   // 800
+    const height = this.cameras.main.height; // 600
+```
+
+**Why store width/height:**
+- Used repeatedly for centering: `width / 2`
+- Makes code responsive if you change game size
+- Cleaner than writing `800` everywhere
+
+### Background
+
+```javascript
+const bg = this.add.rectangle(0, 0, width, height, 0x1a1a2e).setOrigin(0);
+```
+
+**Breaking it down:**
+- `this.add.rectangle()` - Creates a filled rectangle shape
+- `(0, 0)` - Position at top-left corner
+- `width, height` - Size to cover entire screen (800x600)
+- `0x1a1a2e` - Hex color code (dark blue-gray)
+- `.setOrigin(0)` - Sets origin to top-left (default is center)
+
+**Why `.setOrigin(0)`:**
+- Default origin is center (0.5, 0.5)
+- For backgrounds, we want top-left (0, 0)
+- Makes positioning easier: (0,0) = top-left corner
+
+### Title Text
+
+```javascript
+const title = this.add.text(width / 2, 80, 'SHADOW MAGE', {
+    font: 'bold 56px Arial',
+    fill: '#9b59b6',           // Purple color
+    stroke: '#000000',         // Black outline
+    strokeThickness: 6
+});
+title.setOrigin(0.5);
+```
+
+**Text positioning:**
+- `width / 2` = 400 (horizontal center)
+- `80` = 80 pixels from top
+- `.setOrigin(0.5)` = Center the text on this point
+
+**Why `.setOrigin(0.5)` for text:**
+- Default origin is top-left
+- Setting to (0.5, 0.5) centers text on its x,y position
+- Makes centering easy without calculating text width
+
+**Stroke (outline):**
+- `stroke: '#000000'` = Black outline
+- `strokeThickness: 6` = 6 pixels thick
+- Makes text readable on any background
+
+### Story Box
+
+```javascript
+const storyBox = this.add.rectangle(width / 2, 220, 700, 120, 0x2c3e50, 0.8);
+const story = this.add.text(width / 2, 220, 
+    'A dragon has stolen your passwords!\n\n' +
+    'Collect password tokens, destroy shadow threats,\n' +
+    'and defeat the dragon to win back your credentials!', {
+    font: '16px Arial',
+    fill: '#ecf0f1',
+    align: 'center',
+    lineSpacing: 8
+});
+story.setOrigin(0.5);
+```
+
+**Alpha transparency:**
+- Last parameter `0.8` = 80% opaque (slightly transparent)
+- Range: 0 (invisible) to 1 (solid)
+- Creates depth and layering effect
+
+**Multi-line text:**
+- `\n` = Line break
+- `\n\n` = Double line break (paragraph spacing)
+- `align: 'center'` = Centers each line
+- `lineSpacing: 8` = 8 pixels between lines
+
+---
+
+### Interactive Buttons
+
+```javascript
+createButton(x, y, text, color, callback) {
+    const button = this.add.rectangle(x, y, 180, 50, color);
+    button.setInteractive({ useHandCursor: true });
+    
+    const buttonText = this.add.text(x, y, text, {
+        font: 'bold 18px Arial',
+        fill: '#ffffff'
+    });
+    buttonText.setOrigin(0.5);
+    
+    // Hover effects
+    button.on('pointerover', () => {
+        button.setFillStyle(color, 0.8);
+        button.setScale(1.1);
+        buttonText.setScale(1.1);
+    });
+    
+    button.on('pointerout', () => {
+        button.setFillStyle(color, 1);
+        button.setScale(1);
+        buttonText.setScale(1);
+    });
+    
+    button.on('pointerdown', () => {
+        button.setScale(0.95);
+        buttonText.setScale(0.95);
+        this.time.delayedCall(100, callback);
+    });
+    
+    return { button, buttonText };
+}
+```
+
+**Making it interactive:**
+- `setInteractive()` - Enables mouse/touch events
+- `{ useHandCursor: true }` - Changes cursor to pointer on hover
+- Without this, the rectangle is just a visual element
+
+**Event listeners:**
+- `pointerover` - Mouse enters button area
+- `pointerout` - Mouse leaves button area  
+- `pointerdown` - Mouse/touch press
+
+**Hover effect explained:**
+- `setFillStyle(color, 0.8)` - Makes button slightly transparent
+- `setScale(1.1)` - Makes button 10% bigger
+- Creates a "pop" effect that feels responsive
+
+**Click animation:**
+- `setScale(0.95)` - Shrinks button slightly
+- `this.time.delayedCall(100, callback)` - Waits 100ms, then runs callback
+- Gives time for shrink animation to be visible
+- Makes click feel satisfying
+
+### Starting the Game
+
+```javascript
+startGame(difficulty) {
+    console.log(`MenuScene: Starting game with ${difficulty} difficulty`);
+    this.scene.start('GameScene', { difficulty });
+}
+```
+
+**Scene transitions:**
+- `this.scene.start('GameScene')` - Stops MenuScene, starts GameScene
+- `{ difficulty }` - Passes data to next scene
+- GameScene receives this in `init(data)` method
+
+**Why pass data:**
+- Difficulty affects game speed, spawn rates, cooldowns
+- Scenes need to communicate
+- Alternative: Global variables (messier, harder to debug)
+
+---
+
+## 🎮 GAMESCENE - Level 1 Gameplay
+
+### init() - Receiving Data from MenuScene
+
+```javascript
+init(data) {
+    this.difficulty = data.difficulty || 'medium';
+    
+    this.difficultySettings = {
+        easy: {
+            scrollSpeed: 100,
+            shadowWarningTime: 3000,
+            spellCooldown: 1000,
+            shadowSpawnRate: 3000
+        },
+        medium: {
+            scrollSpeed: 150,
+            shadowWarningTime: 2000,
+            spellCooldown: 1500,
+            shadowSpawnRate: 2000
+        },
+        hard: {
+            scrollSpeed: 200,
+            shadowWarningTime: 1000,
+            spellCooldown: 2000,
+            shadowSpawnRate: 1500
+        }
+    };
+    
+    this.settings = this.settings.difficultySettings[this.difficulty];
+}
+```
+
+**Why `|| 'medium'`:**
+- Fallback if no difficulty is passed
+- Prevents errors during testing
+- JavaScript pattern: `value || default`
+
+**Difficulty settings explained:**
+
+| Setting | Easy | Medium | Hard | What it does |
+|---------|------|--------|------|--------------|
+| scrollSpeed | 100 | 150 | 200 | How fast objects move left |
+| shadowWarningTime | 3000ms | 2000ms | 1000ms | Warning before shadow spawns |
+| spellCooldown | 1000ms | 1500ms | 2000ms | Time between spells |
+| shadowSpawnRate | 3000ms | 2000ms | 1500ms | How often shadows spawn |
+
+**Why this structure:**
+- All difficulty parameters in one place
+- Easy to balance and tweak
+- `this.settings` gives quick access to current difficulty
+
+### Game State Variables
+
+```javascript
+this.tokens = 0;
+this.shadowsDestroyed = 0;
+this.shadowsHit = 0;
+this.canCastSpell = true;
+this.gameTime = 0;
+this.levelDuration = 60000;  // 60 seconds
+```
+
+**Why track these:**
+- `tokens` - Determines spell damage in boss fight
+- `shadowsDestroyed` - Reduces dragon health at start of boss fight
+- `shadowsHit` - Reduces player health at start of boss fight
+- `canCastSpell` - Prevents spam clicking (cooldown system)
+- `gameTime` - Tracks elapsed time for countdown timer
+- `levelDuration` - When to end level and start boss fight
+
+---
+
+### create() - Setting Up the Level
+
+```javascript
+create() {
+    const width = this.cameras.main.width;
+    const height = this.cameras.main.height;
+    
+    // Background
+    this.add.rectangle(0, 0, width, height, 0x34495e).setOrigin(0);
+    
+    // Ground
+    this.ground = this.add.rectangle(0, height - 50, width, 50, 0x2c3e50).setOrigin(0);
+    this.physics.add.existing(this.ground, true);
+    
+    // Create player
+    this.player = this.physics.add.sprite(100, height - 100, 'playerchar_placeholder');
+    this.player.setCollideWorldBounds(true);
+    this.physics.add.collider(this.player, this.ground);
+}
+```
+
+**Physics bodies:**
+- `this.physics.add.sprite()` - Creates sprite WITH physics
+- `this.add.sprite()` - Creates sprite WITHOUT physics
+- Physics sprites can move, collide, have velocity
+
+**`this.physics.add.existing(this.ground, true)`:**
+- Adds physics to existing rectangle
+- `true` = Static body (doesn't move, infinite mass)
+- `false` = Dynamic body (moves, affected by gravity)
+
+**Why static ground:**
+- Ground shouldn't move or fall
+- Infinite mass means nothing can push it
+- Players and objects collide with it
+
+**`setCollideWorldBounds(true)`:**
+- Prevents player from leaving screen
+- Player bounces off edges
+- Without this, player could fall off bottom
+
+**Collider vs Overlap:**
+```javascript
+this.physics.add.collider(this.player, this.ground);  // Solid collision
+this.physics.add.overlap(this.player, this.tokens);   // Pass through
+```
+
+- **Collider:** Objects bounce off each other (player/ground)
+- **Overlap:** Objects pass through, triggers callback (player/tokens)
+
+### Groups - Managing Multiple Objects
+
+```javascript
+this.tokens = this.physics.add.group();
+this.shadows = this.physics.add.group();
+this.spells = this.physics.add.group();
+```
+
+**What's a group:**
+- Container for multiple objects of same type
+- Efficient collision detection
+- Easy to loop through: `this.tokens.children.entries.forEach(...)`
+
+**Creating objects in groups:**
+```javascript
+const token = this.tokens.create(x, y, 'token_placeholder');
+```
+
+**Why use groups:**
+- Don't need to track individual tokens manually
+- Phaser handles collision detection for entire group
+- Can apply properties to all: `this.tokens.setVelocityX(-100)`
+
+---
+
+### Input Handling
+
+```javascript
+this.cursors = this.input.keyboard.createCursorKeys();
+this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+this.wKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+```
+
+**Cursor keys:**
+- `this.cursors.up` - Up arrow
+- `this.cursors.down` - Down arrow
+- `this.cursors.left` - Left arrow
+- `this.cursors.right` - Right arrow
+
+**Custom keys:**
+- Need to register individually
+- `KeyCodes.SPACE`, `KeyCodes.W`, etc.
+
+**Checking key state:**
+```javascript
+if (this.cursors.up.isDown) { ... }           // Is key currently pressed?
+if (Phaser.Input.Keyboard.JustDown(this.spaceKey)) { ... }  // Just pressed this frame?
+```
+
+**`isDown` vs `JustDown`:**
+- `isDown` - True while key is held down
+- `JustDown` - True only on first frame of press
+- Use `JustDown` to prevent spam (spell casting)
+- Use `isDown` for continuous actions (jumping)
+
+### Spawn Timers
+
+```javascript
+this.time.addEvent({
+    delay: 2000,
+    callback: this.spawnToken,
+    callbackScope: this,
+    loop: true
+});
+```
+
+**Parameters explained:**
+- `delay: 2000` - Wait 2000 milliseconds (2 seconds)
+- `callback: this.spawnToken` - Function to call
+- `callbackScope: this` - What `this` refers to inside callback
+- `loop: true` - Repeat forever
+
+**Why `callbackScope: this`:**
+- Without it, `this` inside `spawnToken()` would be undefined
+- JavaScript quirk: `this` changes based on how function is called
+- Setting scope ensures `this.tokens.create()` works
+
+**One-time delay:**
+```javascript
+this.time.delayedCall(3000, () => {
+    console.log('This runs once after 3 seconds');
+});
+```
+
+### Collision Detection
+
+```javascript
+this.physics.add.overlap(this.player, this.tokens, this.collectToken, null, this);
+this.physics.add.overlap(this.player, this.shadows, this.hitByShadow, null, this);
+this.physics.add.overlap(this.spells, this.shadows, this.spellHitsShadow, null, this);
+```
+
+**Parameters:**
+1. Object A (player, spells)
+2. Object B (tokens, shadows)
+3. Callback function (what to do when they touch)
+4. Process callback (optional, usually `null`)
+5. Context (`this` for the callback)
+
+**How it works:**
+- Phaser checks every frame if objects overlap
+- If they do, calls your callback function
+- Passes both objects as parameters: `collectToken(player, token)`
+
+---
+
+### update() - The Game Loop
+
+```javascript
+update(time, delta) {
+    this.gameTime += delta;
+    
+    const timeLeft = Math.max(0, Math.ceil((this.levelDuration - this.gameTime) / 1000));
+    this.timerText.setText(`Time: ${timeLeft}s`);
+    
+    // Jumping
+    if ((this.cursors.up.isDown || this.wKey.isDown) && this.player.body.touching.down) {
+        this.player.setVelocityY(-400);
+    }
+    
+    // Spell casting
+    if (Phaser.Input.Keyboard.JustDown(this.spaceKey) && this.canCastSpell) {
+        this.castSpell();
+    }
+}
+```
+
+**What is `update()`:**
+- Runs 60 times per second (60 FPS)
+- Game loop: Check input → Update positions → Check collisions → Render
+- All game logic goes here
+
+**Parameters:**
+- `time` - Total time since game started (milliseconds)
+- `delta` - Time since last frame (~16ms at 60 FPS)
+
+**Why use `delta`:**
+- Accounts for frame rate variations
+- `this.gameTime += delta` tracks elapsed time accurately
+- If game lags, delta is larger, keeps timing consistent
+
+**Jumping logic:**
+```javascript
+if ((this.cursors.up.isDown || this.wKey.isDown) && this.player.body.touching.down) {
+    this.player.setVelocityY(-400);
+}
+```
+
+**Breaking it down:**
+- `this.cursors.up.isDown` - Is UP arrow pressed?
+- `this.wKey.isDown` - Is W key pressed?
+- `||` - OR operator (either key works)
+- `this.player.body.touching.down` - Is player on ground?
+- `setVelocityY(-400)` - Push player upward (negative = up)
+
+**Why check `touching.down`:**
+- Prevents double-jumping
+- Player must be on ground to jump
+- `touching.down` is true when player collides with ground from above
+
+**Velocity explained:**
+- Velocity = speed + direction
+- `setVelocityY(-400)` = Move up at 400 pixels/second
+- Gravity (800) pulls down, so player arcs back down
+- Higher velocity = higher jump
+
+### Cleaning Up Off-Screen Objects
+
+```javascript
+this.spells.children.entries.forEach(spell => {
+    if (spell.x > this.cameras.main.width) {
+        spell.destroy();
+    }
+});
+```
+
+**Why destroy off-screen objects:**
+- Prevents memory leaks
+- Keeps game performant
+- Objects that leave screen are useless
+
+**`children.entries`:**
+- Array of all objects in the group
+- `forEach()` loops through each one
+- `spell.destroy()` removes it from game
+
+---
+
+### spawnToken() - Creating Collectibles
+
+```javascript
+spawnToken() {
+    const x = this.cameras.main.width + 50;  // Just off right edge
+    const y = Phaser.Math.Between(100, 400); // Random height
+    
+    const token = this.tokens.create(x, y, 'token_placeholder');
+    token.setVelocityX(-this.settings.scrollSpeed);
+    
+    // Floating animation
+    this.tweens.add({
+        targets: token,
+        y: y + 20,
+        duration: 1000,
+        yoyo: true,
+        repeat: -1
+    });
+}
+```
+
+**Spawn position:**
+- `width + 50` = Just off right edge of screen
+- Gives player time to react
+- Creates smooth scrolling effect
+
+**Random height:**
+- `Phaser.Math.Between(100, 400)` - Random Y between 100 and 400
+- Makes tokens appear at different heights
+- Adds variety to gameplay
+
+**Velocity:**
+- `setVelocityX(-scrollSpeed)` - Move left
+- Negative = left, Positive = right
+- Speed varies by difficulty (100/150/200)
+
+**Tweens - Smooth Animations:**
+```javascript
+this.tweens.add({
+    targets: token,      // What to animate
+    y: y + 20,          // End value (20 pixels down)
+    duration: 1000,     // Over 1 second
+    yoyo: true,         // Reverse back to start
+    repeat: -1          // Loop forever (-1 = infinite)
+});
+```
+
+**What's a tween:**
+- Smooth animation between two values
+- Phaser handles the math (interpolation)
+- `yoyo: true` makes it bounce back
+- Creates floating effect
+
+### spawnShadow() - Warning System
+
+```javascript
+spawnShadow() {
+    const x = this.cameras.main.width + 50;
+    const y = this.cameras.main.height - 75;
+    
+    // Warning indicator
+    const warning = this.add.circle(x, y - 30, 10, 0xff0000, 0.5);
+    this.tweens.add({
+        targets: warning,
+        alpha: 0,
+        duration: this.settings.shadowWarningTime,
+        onComplete: () => warning.destroy()
+    });
+    
+    // Spawn shadow after warning
+    this.time.delayedCall(this.settings.shadowWarningTime, () => {
+        const shadow = this.shadows.create(x, y, 'shadow_placeholder');
+        shadow.setVelocityX(-this.settings.scrollSpeed);
+    });
+}
+```
+
+**Warning indicator:**
+- Red circle appears first
+- Fades out over warning time (1-3 seconds based on difficulty)
+- `alpha: 0` = Fade to invisible
+- `onComplete: () => warning.destroy()` = Remove when done
+
+**Why warning system:**
+- Gives player time to react
+- Makes game feel fair (not cheap deaths)
+- Difficulty affects warning time:
+  - Easy: 3 seconds
+  - Medium: 2 seconds
+  - Hard: 1 second
+
+**Delayed spawn:**
+- Shadow appears after warning fades
+- `this.time.delayedCall()` waits before spawning
+- Timing matches warning duration
+
+---
+
+### castSpell() - Particle Effects
+
+```javascript
+castSpell() {
+    if (!this.canCastSpell) return;
+    
+    const spell = this.spells.create(
+        this.player.x + 20,
+        this.player.y,
+        'spell_placeholder'
+    );
+    spell.setVelocityX(300);
+    
+    // Particle effect
+    const particles = this.add.particles(spell.x, spell.y, 'spell_placeholder', {
+        speed: 50,
+        scale: { start: 1, end: 0 },
+        lifespan: 300,
+        quantity: 5
+    });
+    particles.startFollow(spell);
+    
+    // Cooldown
+    this.canCastSpell = false;
+    this.cooldownBar.setFillStyle(0x555555);
+    
+    this.time.delayedCall(this.settings.spellCooldown, () => {
+        this.canCastSpell = true;
+        this.cooldownBar.setFillStyle(0x9b59b6);
+    });
+}
+```
+
+**Cooldown system:**
+- `if (!this.canCastSpell) return;` - Exit if on cooldown
+- Prevents spam clicking
+- `this.canCastSpell = false` - Start cooldown
+- After delay, set back to `true`
+
+**Particle emitter:**
+```javascript
+const particles = this.add.particles(x, y, texture, {
+    speed: 50,                    // Particle velocity
+    scale: { start: 1, end: 0 },  // Shrink to nothing
+    lifespan: 300,                // Live for 300ms
+    quantity: 5                   // 5 particles per emission
+});
+```
+
+**What particles do:**
+- Create trail effect behind spell
+- `scale: { start: 1, end: 0 }` - Particles shrink and disappear
+- `particles.startFollow(spell)` - Particles follow the spell
+- Makes spell feel powerful
+
+**Visual feedback:**
+- Cooldown bar changes color (purple → gray → purple)
+- Player knows when they can cast again
+- Common in games (ability cooldowns)
+
+### collectToken() - Floating Text
+
+```javascript
+collectToken(player, token) {
+    token.destroy();
+    this.tokenCount = (this.tokenCount || 0) + 1;
+    this.tokenText.setText(`Tokens: ${this.tokenCount}`);
+    
+    // Visual feedback
+    const text = this.add.text(token.x, token.y, '+1', {
+        font: 'bold 16px Arial',
+        fill: '#f1c40f'
+    });
+    this.tweens.add({
+        targets: text,
+        y: text.y - 50,
+        alpha: 0,
+        duration: 1000,
+        onComplete: () => text.destroy()
+    });
+}
+```
+
+**Why `|| 0`:**
+- If `tokenCount` is undefined, use 0
+- Prevents `NaN` (Not a Number) errors
+- JavaScript pattern for default values
+
+**Floating text animation:**
+- Text appears at token position
+- Floats upward 50 pixels
+- Fades out (`alpha: 0`)
+- Destroys itself when done
+
+**Why floating text:**
+- Immediate feedback that you collected something
+- Shows how many tokens you got
+- Common in games (damage numbers, score popups, +XP)
+
+---
+
+### hitByShadow() - Penalty System
+
+```javascript
+hitByShadow(player, shadow) {
+    shadow.destroy();
+    this.shadowsHit++;
+    
+    // Lose 50% of tokens
+    const tokensLost = Math.floor((this.tokenCount || 0) / 2);
+    this.tokenCount = (this.tokenCount || 0) - tokensLost;
+    this.tokenText.setText(`Tokens: ${this.tokenCount}`);
+    
+    // Visual feedback
+    const text = this.add.text(player.x, player.y - 30, `-${tokensLost} tokens!`, {
+        font: 'bold 16px Arial',
+        fill: '#e74c3c'
+    });
+    this.tweens.add({
+        targets: text,
+        y: text.y - 50,
+        alpha: 0,
+        duration: 1000,
+        onComplete: () => text.destroy()
+    });
+    
+    // Screen shake
+    this.cameras.main.shake(200, 0.01);
+}
+```
+
+**Math.floor():**
+- Rounds down to whole number
+- `Math.floor(7.8)` = 7
+- Can't lose 0.5 tokens
+
+**50% penalty:**
+- Harsh but fair
+- Encourages destroying shadows
+- Creates risk/reward (jump over or cast spell?)
+
+**Screen shake:**
+```javascript
+this.cameras.main.shake(duration, intensity);
+```
+
+- `200` - Duration in milliseconds
+- `0.01` - Intensity (how much to shake)
+- Emphasizes impact
+- Makes hits feel powerful
+
+**Why screen shake works:**
+- Visceral feedback
+- Player immediately knows they got hit
+- Common in action games (Celeste, Hollow Knight)
+
+### spellHitsShadow() - Explosion Effect
+
+```javascript
+spellHitsShadow(spell, shadow) {
+    spell.destroy();
+    shadow.destroy();
+    this.shadowsDestroyed++;
+    this.shadowText.setText(`Shadows Destroyed: ${this.shadowsDestroyed}`);
+    
+    // Explosion effect
+    const explosion = this.add.circle(shadow.x, shadow.y, 20, 0x9b59b6, 0.8);
+    this.tweens.add({
+        targets: explosion,
+        scale: 2,
+        alpha: 0,
+        duration: 300,
+        onComplete: () => explosion.destroy()
+    });
+}
+```
+
+**Explosion animation:**
+- Circle starts at size 20
+- Scales to 2x size (40 pixels)
+- Fades out simultaneously
+- Creates expanding explosion effect
+
+**Why destroy both:**
+- Spell and shadow both disappear
+- Prevents spell from hitting multiple shadows
+- Realistic collision behavior
+
+---
+
+### endLevel() - Transitioning to Boss Fight
+
+```javascript
+endLevel() {
+    console.log('GameScene: Level complete');
+    
+    this.scene.start('BossScene', {
+        difficulty: this.difficulty,
+        tokens: this.tokenCount || 0,
+        shadowsDestroyed: this.shadowsDestroyed,
+        shadowsHit: this.shadowsHit
+    });
+}
+```
+
+**Passing performance data:**
+- `tokens` - Determines spell damage in boss fight
+- `shadowsDestroyed` - Reduces dragon health
+- `shadowsHit` - Reduces player health
+- Creates continuity between levels
+
+**Why this matters:**
+- Good Level 1 performance = easier boss fight
+- Bad Level 1 performance = harder boss fight
+- Rewards skillful play
+
+---
+
+## 🐉 BOSSSCENE - Dragon Fight
+
+### init() - Calculating Health
+
+```javascript
+init(data) {
+    this.difficulty = data.difficulty;
+    this.tokensCollected = data.tokens || 0;
+    this.shadowsDestroyed = data.shadowsDestroyed || 0;
+    this.shadowsHit = data.shadowsHit || 0;
+    
+    const baseHealth = { easy: 100, medium: 150, hard: 200 };
+    this.dragonMaxHealth = baseHealth[this.difficulty] - this.shadowsDestroyed;
+    this.dragonHealth = this.dragonMaxHealth;
+    
+    this.playerMaxHealth = 100 - this.shadowsHit;
+    this.playerHealth = this.playerMaxHealth;
+    
+    this.bossPhase = 1;
+}
+```
+
+**Health formulas:**
+- **Dragon:** Base health - shadows destroyed
+  - Easy: 100 - shadows destroyed
+  - Medium: 150 - shadows destroyed
+  - Hard: 200 - shadows destroyed
+- **Player:** 100 - shadows hit
+
+**Example:**
+- Destroyed 20 shadows, hit by 5 shadows, Medium difficulty
+- Dragon health: 150 - 20 = 130
+- Player health: 100 - 5 = 95
+
+**Why this system:**
+- Rewards good Level 1 performance
+- Creates meaningful progression
+- Makes Level 1 feel important
+
+### Health Bars
+
+```javascript
+createHealthBars() {
+    this.dragonHealthBarBg = this.add.rectangle(width / 2, 45, 400, 20, 0x333333);
+    this.dragonHealthBar = this.add.rectangle(width / 2, 45, 400, 20, 0xe74c3c);
+}
+```
+
+**Two rectangles:**
+- Background (dark gray) - Shows max health
+- Foreground (red) - Shows current health
+- Foreground scales down as health decreases
+
+**Updating health bar:**
+```javascript
+const healthPercent = Math.max(0, this.dragonHealth / this.dragonMaxHealth);
+this.dragonHealthBar.setScale(healthPercent, 1);
+```
+
+**How it works:**
+- `healthPercent` = Current / Max
+- 100% health = 1.0 scale (full width)
+- 50% health = 0.5 scale (half width)
+- 0% health = 0 scale (invisible)
+- `Math.max(0, ...)` prevents negative scale
+
+---
+
+### playerAttack() - Spell Animation
+
+```javascript
+playerAttack() {
+    if (!this.canAttack) return;
+    
+    const damage = Math.max(1, Math.floor(this.tokensCollected / 10));
+    this.dragonHealth -= damage;
+    
+    const spell = this.add.circle(this.player.x, this.player.y, 8, 0x9b59b6);
+    this.tweens.add({
+        targets: spell,
+        x: this.dragon.x,
+        y: this.dragon.y,
+        duration: 500,
+        onComplete: () => {
+            spell.destroy();
+            this.cameras.main.shake(100, 0.005);
+        }
+    });
+    
+    this.canAttack = false;
+    this.time.delayedCall(1000, () => {
+        this.canAttack = true;
+    });
+    
+    if (this.dragonHealth <= 0) {
+        this.victory();
+    }
+}
+```
+
+**Damage formula:**
+- `Math.floor(tokensCollected / 10)`
+- 10 tokens = 1 damage
+- 50 tokens = 5 damage
+- 100 tokens = 10 damage
+- `Math.max(1, ...)` ensures at least 1 damage
+
+**Why this formula:**
+- Rewards token collection
+- Not too punishing if you missed some
+- Balanced for boss health
+
+**Spell animation:**
+- Spell travels from player to dragon
+- Takes 500ms to reach
+- Destroys on impact
+- Screen shake for feedback
+
+**Attack cooldown:**
+- 1 second between attacks
+- Prevents spam clicking
+- Makes timing important
+
+### dragonAttack() - Fireball
+
+```javascript
+dragonAttack() {
+    if (!this.dragon) return;
+    
+    const damage = 10;
+    this.playerHealth -= damage;
+    
+    const fireball = this.add.circle(this.dragon.x, this.dragon.y, 12, 0xff4500);
+    this.tweens.add({
+        targets: fireball,
+        x: this.player.x,
+        y: this.player.y,
+        duration: 800,
+        onComplete: () => {
+            fireball.destroy();
+            this.cameras.main.shake(150, 0.01);
+        }
+    });
+    
+    if (this.playerHealth <= 0) {
+        this.defeat();
+    }
+}
+```
+
+**Fixed damage:**
+- Dragon always does 10 damage
+- Consistent threat
+- Player needs to end fight quickly
+
+**Slower projectile:**
+- 800ms vs player's 500ms
+- Gives player time to see it coming
+- Makes boss feel fair
+
+**Attack timer:**
+```javascript
+this.time.addEvent({
+    delay: 2000,
+    callback: this.dragonAttack,
+    callbackScope: this,
+    loop: true
+});
+```
+
+- Dragon attacks every 2 seconds
+- Automatic, no player input
+- Creates pressure
+
+---
+
+### Boss Phases
+
+```javascript
+update() {
+    if (!this.dragon) return;
+    
+    if (this.dragonHealth <= this.dragonMaxHealth * 0.5 && this.bossPhase === 1) {
+        this.enterPhase2();
+    }
+    
+    if (this.dragonHealth <= this.dragonMaxHealth * 0.25 && this.bossPhase === 2) {
+        this.enterPhase3();
+    }
+}
+
+enterPhase2() {
+    this.bossPhase = 2;
+    const text = this.add.text(width / 2, height / 2, 'PHASE 2!', {
+        font: 'bold 36px Arial',
+        fill: '#ff0000'
+    });
+    text.setOrigin(0.5);
+    
+    this.tweens.add({
+        targets: text,
+        alpha: 0,
+        duration: 2000,
+        onComplete: () => text.destroy()
+    });
+}
+```
+
+**Phase triggers:**
+- Phase 2 at 50% health
+- Phase 3 at 25% health
+- `&& this.bossPhase === 1` prevents triggering multiple times
+
+**Why phases:**
+- Keeps boss fight interesting
+- Increases difficulty as fight progresses
+- Common in boss fights (Dark Souls, Zelda, Cuphead)
+
+**Future enhancements:**
+- Phase 2: Faster attacks
+- Phase 3: Spawn minions
+- Currently just visual (text announcement)
+
+---
+
+## 🎯 KEY PROGRAMMING CONCEPTS
+
+### 1. Object-Oriented Programming (OOP)
+
+```javascript
+export default class GameScene extends Phaser.Scene {
+    constructor() {
+        super({ key: 'GameScene' });
+    }
+    
+    create() { ... }
+    update() { ... }
+    spawnToken() { ... }
+}
+```
+
+**What's happening:**
+- `class` = Blueprint for an object
+- `extends Phaser.Scene` = Inherits Phaser's scene functionality
+- `constructor()` = Runs when scene is created
+- Methods = Functions that belong to the class
+
+**Inheritance:**
+- GameScene inherits from Phaser.Scene
+- Gets all Phaser's built-in methods
+- Can override methods (create, update)
+- Can add new methods (spawnToken, castSpell)
+
+### 2. The Game Loop
+
+```
+┌─────────────────────────────────────┐
+│  1. Check Input (keys pressed?)    │
+│  2. Update Positions (move objects) │
+│  3. Check Collisions (touching?)    │
+│  4. Update UI (health, score)       │
+│  5. Render Frame                    │
+│  6. Repeat (60 times per second)    │
+└─────────────────────────────────────┘
+```
+
+**update() runs every frame:**
+- 60 FPS = 60 times per second
+- Each call is one "frame"
+- `delta` parameter = time since last frame (~16ms)
+
+**Why 60 FPS:**
+- Standard for smooth gameplay
+- Matches most monitor refresh rates
+- Lower = choppy, Higher = diminishing returns
+
+---
+
+### 3. Event-Driven Programming
+
+```javascript
+// Mouse events
+button.on('pointerdown', () => { ... });
+
+// Timer events
+this.time.addEvent({ callback: this.spawnToken });
+
+// Collision events
+this.physics.add.overlap(player, tokens, this.collectToken);
+
+// Keyboard events
+if (Phaser.Input.Keyboard.JustDown(this.spaceKey)) { ... }
+```
+
+**What's an event:**
+- Something happens (click, timer, collision, key press)
+- Your code responds with a callback function
+- Phaser handles detection, you handle response
+
+**Why event-driven:**
+- Don't need to constantly check everything
+- More efficient
+- Cleaner code structure
+
+### 4. State Management
+
+```javascript
+// State variables
+this.canCastSpell = true;
+this.bossPhase = 1;
+this.gameTime = 0;
+
+// Changing state
+if (this.canCastSpell) {
+    this.castSpell();
+    this.canCastSpell = false;  // Change state
+}
+
+// Checking state
+if (this.bossPhase === 1 && health < 50) {
+    this.enterPhase2();
+    this.bossPhase = 2;  // Update state
+}
+```
+
+**Why state matters:**
+- Tracks what's currently happening
+- Prevents invalid actions (casting while on cooldown)
+- Makes game logic predictable
+- Essential for complex games
+
+### 5. Coordinate System
+
+```
+(0,0) ────────────────────► X
+  │
+  │     Game Canvas
+  │     800 x 600
+  │
+  │
+  ▼
+  Y
+
+Center: (400, 300)
+Top-right: (800, 0)
+Bottom-left: (0, 600)
+Bottom-right: (800, 600)
+```
+
+**Important points:**
+- Origin (0,0) is top-left
+- X increases to the right
+- Y increases downward (opposite of math class!)
+- Negative Y = upward movement
+
+**Origin of objects:**
+- Default: Center (0.5, 0.5)
+- Top-left: (0, 0)
+- Bottom-right: (1, 1)
+- `setOrigin(0.5)` = center object on its x,y position
+
+---
+
+### 6. Physics Concepts
+
+**Velocity:**
+```javascript
+sprite.setVelocityX(100);   // Move right at 100 px/s
+sprite.setVelocityY(-400);  // Move up at 400 px/s
+```
+
+**Gravity:**
+```javascript
+physics: {
+    arcade: {
+        gravity: { y: 800 }  // Pull down at 800 px/s²
+    }
+}
+```
+
+**Collision types:**
+- **Collider:** Objects bounce off each other
+- **Overlap:** Objects pass through, triggers callback
+
+**Body types:**
+- **Dynamic:** Moves, affected by gravity
+- **Static:** Doesn't move, infinite mass
+
+### 7. Tweens (Animations)
+
+```javascript
+this.tweens.add({
+    targets: object,        // What to animate
+    x: 100,                // End value for x
+    y: 200,                // End value for y
+    alpha: 0,              // Fade out
+    scale: 2,              // Double size
+    duration: 1000,        // Over 1 second
+    ease: 'Power2',        // Easing function
+    yoyo: true,            // Reverse back
+    repeat: -1,            // Loop forever
+    onComplete: () => {}   // Callback when done
+});
+```
+
+**Common uses:**
+- Floating animations
+- Fade in/out
+- Scale effects
+- Moving objects smoothly
+
+**Easing functions:**
+- Linear: Constant speed
+- Power2: Accelerate/decelerate
+- Bounce: Bouncy effect
+- Elastic: Spring-like
+
+---
+
+## 🔄 HOW EVERYTHING WORKS TOGETHER
+
+### Game Flow
+
+```
+1. index.html loads
+   ↓
+2. Vite bundles JavaScript
+   ↓
+3. main.js creates Phaser game
+   ↓
+4. BootScene runs (setup)
+   ↓
+5. PreloadScene loads assets
+   ↓
+6. MenuScene shows menu
+   ↓
+7. User clicks difficulty
+   ↓
+8. GameScene starts (Level 1)
+   ↓
+9. After 60 seconds
+   ↓
+10. BossScene starts (Dragon fight)
+    ↓
+11. Victory or Defeat
+    ↓
+12. GameOverScene shows results
+```
+
+### Data Flow Between Scenes
+
+```javascript
+// MenuScene passes difficulty
+this.scene.start('GameScene', { difficulty: 'hard' });
+
+// GameScene receives and uses it
+init(data) {
+    this.difficulty = data.difficulty;
+}
+
+// GameScene passes performance data
+this.scene.start('BossScene', {
+    difficulty: this.difficulty,
+    tokens: this.tokenCount,
+    shadowsDestroyed: this.shadowsDestroyed,
+    shadowsHit: this.shadowsHit
+});
+
+// BossScene calculates health based on performance
+init(data) {
+    this.dragonHealth = baseHealth[data.difficulty] - data.shadowsDestroyed;
+    this.playerHealth = 100 - data.shadowsHit;
+}
+```
+
+---
+
+### Scene Lifecycle
+
+```javascript
+class MyScene extends Phaser.Scene {
+    // 1. Constructor - Scene created
+    constructor() {
+        super({ key: 'MyScene' });
+    }
+    
+    // 2. init() - Receives data from previous scene
+    init(data) {
+        this.difficulty = data.difficulty;
+    }
+    
+    // 3. preload() - Load assets (images, sounds)
+    preload() {
+        this.load.image('player', 'assets/player.png');
+    }
+    
+    // 4. create() - Setup scene (runs once)
+    create() {
+        this.player = this.add.sprite(100, 100, 'player');
+    }
+    
+    // 5. update() - Game loop (runs every frame)
+    update(time, delta) {
+        // Game logic here
+    }
+    
+    // 6. shutdown() - Scene ends
+    shutdown() {
+        // Cleanup if needed
+    }
+}
+```
+
+### Performance Tracking System
+
+```
+Level 1 Performance → Boss Fight Difficulty
+
+Tokens Collected (50)
+    ↓
+Spell Damage = 50 / 10 = 5 damage per hit
+    ↓
+Faster boss kill
+
+Shadows Destroyed (20)
+    ↓
+Dragon Health = 150 - 20 = 130
+    ↓
+Easier boss fight
+
+Shadows Hit (5)
+    ↓
+Player Health = 100 - 5 = 95
+    ↓
+Less margin for error
+```
+
+---
+
+## 📚 WHAT YOU SHOULD UNDERSTAND
+
+### Core Concepts
+
+1. **Scenes are like PowerPoint slides**
+   - Each is a different screen
+   - Can transition between them
+   - Pass data when transitioning
+
+2. **create() runs once**
+   - Sets up the scene
+   - Creates objects
+   - Registers event listeners
+
+3. **update() runs every frame**
+   - Game logic goes here
+   - Checks input
+   - Updates positions
+
+4. **Groups manage multiple objects**
+   - Tokens, shadows, spells
+   - Efficient collision detection
+   - Easy to loop through
+
+5. **Tweens create smooth animations**
+   - Floating, fading, moving
+   - Phaser handles the math
+   - Makes game feel polished
+
+6. **Collision detection is automatic**
+   - Phaser handles the math
+   - You just provide callback
+   - Works with groups
+
+7. **Data passes between scenes**
+   - `{ difficulty }` parameter
+   - Received in `init(data)`
+   - Creates continuity
+
+8. **Difficulty is just numbers**
+   - Speed, cooldown, spawn rate
+   - All in one object
+   - Easy to balance
+
+---
+
+## 🎓 LEARNING RESOURCES
+
+### Understanding This Code
+
+**Start with:**
+1. Read MenuScene (simplest)
+2. Understand button creation
+3. Move to GameScene
+4. Focus on one system at a time (spawning, collision, etc.)
+
+**Key files to study:**
+- `main.js` - Game configuration
+- `MenuScene.js` - UI and buttons
+- `GameScene.js` - Core gameplay
+- `BossScene.js` - Boss mechanics
+
+### Phaser 3 Documentation
+
+- Official Docs: https://photonstorm.github.io/phaser3-docs/
+- Examples: https://phaser.io/examples
+- Tutorials: https://phaser.io/tutorials
+
+### JavaScript Concepts Used
+
+- Classes and OOP
+- Arrow functions: `() => {}`
+- Template literals: `` `Tokens: ${count}` ``
+- Destructuring: `{ difficulty }`
+- Callbacks and events
+- Array methods: `forEach()`, `map()`
+
+---
+
+## 🔧 DEBUGGING TIPS
+
+### Common Issues
+
+**Nothing appears on screen:**
+- Check browser console (F12) for errors
+- Verify assets are loaded in PreloadScene
+- Check if scene is actually running
+
+**Collisions not working:**
+- Set `debug: true` in physics config
+- Check if objects have physics bodies
+- Verify collision callback is registered
+
+**Objects moving wrong:**
+- Check velocity signs (negative = left/up)
+- Verify gravity settings
+- Check if `setCollideWorldBounds()` is set
+
+**Performance issues:**
+- Destroy off-screen objects
+- Limit particle count
+- Use object pooling for frequently created objects
+
+### Browser Console Commands
+
+```javascript
+// Access game instance
+window.game
+
+// Get current scene
+window.game.scene.scenes[0]
+
+// Pause game
+window.game.scene.pause('GameScene')
+
+// Resume game
+window.game.scene.resume('GameScene')
+
+// Check FPS
+window.game.loop.actualFps
+```
+
+---
+
+## 🚀 NEXT STEPS
+
+### What's Working
+
+✅ Game loop  
+✅ Scene transitions  
+✅ Player movement (auto-run + jump)  
+✅ Token collection  
+✅ Shadow spawning with warnings  
+✅ Spell casting with cooldown  
+✅ Collision detection  
+✅ Boss fight mechanics  
+✅ Health bars  
+✅ Difficulty scaling  
+✅ Performance tracking  
+✅ Victory/defeat conditions  
+
+### What's NOT Implemented Yet
+
+❌ Backend API  
+❌ Auth0 login  
+❌ ElevenLabs voice  
+❌ Cloudflare leaderboard  
+❌ Solana skins  
+❌ Real graphics/sprites  
+❌ Sound effects  
+❌ Level 2  
+❌ Multiplayer  
+
+### Adding Sponsor Integrations
+
+**Auth0 (Authentication):**
+- Add login screen before menu
+- Store user ID for leaderboard
+- Track player progress
+
+**ElevenLabs (Voice):**
+- Generate voice lines for dragon
+- Add narration to story
+- Voice feedback for events
+
+**Cloudflare (Leaderboard):**
+- Cloudflare Workers for API
+- Store high scores
+- Display top players
+
+**Vultr (Backend):**
+- Host game server
+- Store user data
+- Handle multiplayer logic
+
+**Solana (Blockchain):**
+- In-game currency
+- Purchasable skins
+- No real money involved
+
+---
+
+## 📝 SUMMARY
+
+This game uses **Phaser 3** to create a 2D platformer with:
+
+- **6 scenes** for different game states
+- **Arcade physics** for movement and collisions
+- **Groups** to manage multiple objects
+- **Tweens** for smooth animations
+- **Event-driven** programming for interactions
+- **State management** for game logic
+- **Data passing** between scenes for continuity
+
+The code is structured to be:
+- **Modular** - Each scene is independent
+- **Readable** - Clear variable names and comments
+- **Maintainable** - Easy to add features
+- **Scalable** - Can grow into larger game
+
+**Key takeaway:** Game development is about managing state, handling events, and creating feedback loops that feel good to the player.
+
+---
+
+**Questions? Pick any section and I can explain it in more detail!**
+
+---
+
+*Document created for HackSussex Hackathon Project*  
+*Framework: Phaser 3.70.0*  
+*Build Tool: Vite 5.0.0*  
+*Language: JavaScript (ES6+)*

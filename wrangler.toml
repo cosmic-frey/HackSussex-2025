@@ -1,0 +1,37 @@
+name = "password-quest"
+main = "cloudflare-worker.js"
+type = "service"
+account_id = ""  # Set via CLOUDFLARE_ACCOUNT_ID env var
+compatibility_date = "2024-11-01"
+
+# Build configuration
+[build]
+command = "npm install"
+watch_paths = ["cloudflare-worker.js"]
+
+# Routes - Update with your domain
+[[routes]]
+pattern = "api.password-quest.com/api/*"
+zone_name = "password-quest.com"
+
+[[routes]]
+pattern = "password-quest.com/*"
+zone_name = "password-quest.com"
+
+# Environment variables for Cloudflare
+[env.production]
+vars = { ENVIRONMENT = "production" }
+name = "password-quest-prod"
+
+[env.staging]
+vars = { ENVIRONMENT = "staging" }
+name = "password-quest-staging"
+
+# KV namespaces (if needed for caching)
+[[kv_namespaces]]
+binding = "CACHE"
+id = ""  # Set your KV namespace ID
+
+# Analytics Engine binding (if using Cloudflare Analytics)
+[[analytics_engine_datasets]]
+name = "analytics"
