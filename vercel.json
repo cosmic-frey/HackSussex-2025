@@ -5,9 +5,17 @@
   "framework": "vite",
   "outputDirectory": "dist",
   "env": {
-    "VITE_AUTH0_DOMAIN": "@vite_auth0_domain",
-    "VITE_AUTH0_CLIENT_ID": "@vite_auth0_client_id",
-    "VITE_AUTH0_AUDIENCE": "@vite_auth0_audience",
-    "VITE_VULTR_API_URL": "@vite_vultr_api_url"
+    "VITE_AUTH0_DOMAIN": {
+      "required": true
+    },
+    "VITE_AUTH0_CLIENT_ID": {
+      "required": true
+    },
+    "VITE_AUTH0_AUDIENCE": {
+      "required": true
+    },
+    "VITE_VULTR_API_URL": {
+      "required": true
+    }
   }
 }
