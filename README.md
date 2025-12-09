@@ -63,7 +63,7 @@ When you defeat the dragon, you are given your overall score and taken to an end
 ## How Tasks were split-up:
 Initially we were supposed to be part of a larger team. However, pessimistically I dreamt that this all went wrong the night before (I hate having prophetic dreams the night before a big deadline), so I readied myself for this eventuality. Our other two teammates had uni deadlines (which is so valid, I feel for anyone who has January exams), and my teammate (Jabez, one of my closest friends from Sixth Form) had committments in the evening which were to watch his flatmate in a performace and sleep 6-9 hours (both valid and I would have done the same in his position, I did regret onl sleeping 4-5 hours the following Monday).   
    
-This did complicate the division of tasks, as many of these timings were unknown, so - we decided to do something **bold** and somewhat rash:
+This did complicate the division of tasks, as many of these timings were unknown, so - we decided to do something **bold** (and somewhat rash):
 - I (The **Biologist**) would work on the logic
 - He (The **Theoretical Physicist**) would work on the graphics and anything else he had time for.
 This put both of us majorly out of our comfort zones, and also forced us to engage in "valuable learning opportunities" (helpful as this was one of the judging criteria).
