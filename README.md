@@ -65,7 +65,7 @@ Initially we were supposed to be part of a larger team. However, pessimistically
    
 This did complicate the division of tasks, as many of these timings were unknown, so - we decided to do something **bold** (and somewhat rash):
 - I (The **Biologist**) would work on the logic
-- He (The **Theoretical Physicist**) would work on the graphics and anything else he had time for.
+- My teammate (The **Theoretical Physicist**) would work on the graphics and anything else he had time for.
 This put both of us majorly out of our comfort zones, and also forced us to engage in "valuable learning opportunities" (helpful as this was one of the judging criteria).
 
 I have a tendency to over-reach in projects and not get them finished (never take me to pottery painting it will be the most stressful experience of your life), so I made sure we entered this competition with a simplicity-focussed mindset (which went out of the window a little bit when things started going a bit too well - I'm too much of an over-achiever). This simplicity was helpful as it focussed the initial stages of work so that we had something playable by the first evening (Level 1).   
