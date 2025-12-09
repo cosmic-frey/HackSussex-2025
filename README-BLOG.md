@@ -144,7 +144,7 @@ Obviously I used a lot of resources, and could not have completed this project w
 AI is a great tool for learning, and helps to streamline a project under time pressure. I am very open about my use of AI as a learning tool, and AI has helped me a lot over the past month in order to familiarise myself with Javascript (during my first online hackathon project). 
    
 ### What AI was helpful for:
-- Adding comments (My teammate did not know Javascript and there would not have been enough time for me to add comments for every block of code I wrote in the 24hour period)
+- Adding comments to code blocks continuously, to refer back to. (My teammate did not know Javascript and there would not have been enough time for me to add and edit comments for every block of code on my own)
 - Summarising the work I had done so far in an .md for me to refer back to after taking breaks (toilet break, lunch break, chat break, walk break, sleep, etc)
 - Writing up instructions of ways I could implement changes as .md files, and answering questions I had on these potential changes.
 - Explaining why my code was not running (it's hard to get into the flow of Javascript syntax, and as I'm new to it I still regularly make mistakes - which is how you learn!)
