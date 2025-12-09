@@ -36,9 +36,9 @@ These winning categories were:
   - The best game that is deployed to the cloud with Vultr wins!
    
 ## Game structure - Password Quest:  
-(This is a written breakdown of our game structure however, including video game stills if you are a more visual learner.)
+(This is a written breakdown of our game structure however, including video game stills if you are a more visual learner.)   
 **1) Intro-Video:**  
-The intro video sets the scene for the plot. To make this we used AI generated art that we pixelised for the opening scene, Canva, Piskel (for the dragon and crying scene) and ElevenLabs for the narration and background music. 
+The intro video sets the scene for the plot. To make this we used AI generated art that we pixelised for the opening scene, Canva, Piskel (for the dragon and crying scene) and ElevenLabs for the narration and background music.    
 **2) Concept:**   
 You need to collect Password tokens (coins) in order to defeat the dragon at the final level. There are elements of the first two levels that will try to stop you from achieving this. The game has setting split into Easy, Medium and Hard for all three levels (i.e. if Easy is chosen at the beginning, then all levels (1, 2 and 3) will be in Easy mode unless the game is restarted and a new mode is selected).   
 **3) Level 1:**   
