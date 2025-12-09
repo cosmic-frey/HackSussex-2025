@@ -141,7 +141,7 @@ Obviously I used a lot of resources, and could not have completed this project w
 
 
 ## Use of AI:   
-AI is a great tool for learning, and helps to streamline a project under time pressure. I am very open about my use of AI as a learning tool, and AI helped me a lot over the past month in familiarising myself with Javascript.   
+AI is a great tool for learning, and helps to streamline a project under time pressure. I am very open about my use of AI as a learning tool, and AI has helped me a lot over the past month in order to familiarise myself with Javascript (during my first online hackathon project). 
    
 ### What AI was helpful for:
 - Adding comments (My teammate did not know Javascript and there would not have been enough time for me to add comments for every block of code I wrote in the 24hour period)
@@ -155,8 +155,8 @@ AI is a great tool for learning, and helps to streamline a project under time pr
 
 
 ## Challenges we ran into:
-### We forgot to reload Powershell for two hours, so we thought packages hadn't installed properly:
-Evident from the sub-heading. Two. Full. Hours. Time I could have used later to fix our my backend bugs. This was a learning opportunity, because sometimes the problems that pop up are because you've overlooked the 'easy' steps. 
+### We forgot to refresh Powershell for two hours, so we thought packages hadn't installed properly:
+Evident from the sub-heading. Two. Full. Hours. Time I could have used later to fix our backend bugs. This was a learning opportunity, because sometimes the problems that pop up are because you overlooked the 'easy' steps initially. 
 
 ### I still don't quite understand why I kept getting a node.js audit error, but ignoring it worked fine:
 This is something I need to look into, my code worked fine but I do need to run an audit check.
@@ -165,22 +165,26 @@ This is something I need to look into, my code worked fine but I do need to run 
 Integrating audio with video clips, directly in Javascript, is so much harder than adding in sound effects for actions or effects. Initially I wanted to make the video in Canva (along with the audio) then just load it for the intro-video. However, the loading of video clips was far too delayed and would cut off the audio/video or the audio and video would load seperately and un-sync. This was even a problem for shorter clips, so the video scenes had to be compiled/made directly in Javascript. I got a weird bug in rendering the Mushroom_cry sprite, where a blue bar appeared above (there is no blue in the line above this sprite sheet, I still don't know how to fix this).
 
 ### The physics kept going wrong in Level 1:  
-Level 1 took the longest amount of time to make (nearly all of day 1, 12pm - 10pm).  
+Level 1 took the longest amount of time to make (nearly all of day 1, 12pm - 10pm), far longer than the creation of Levels 2 and 3. This was primarily because the actions, dynamics and physics defined in Level 1 helped to speed up the creation of Levels 2 and 3 (such as: gravity-driven shooting for spell-casting and fire, coin-counting, shadow threat dynamics, jumping, implementing sliding screens, etc). 
 
 ### Coin-counting kept multiplying instead of adding and it made me cry:
 
 ### I kept breaking level 2:
+Level 2 kept breaking because I over-complicated the mechanics of this level. The screen would stop sliding, gravity would pull all objects off the bottom of the screen, shadow threats would not load, etc. I fixed these bugs by completely stripping back my code, writing down exactly what physics/mechanics I wanted for each of the components (to find the code blocks I needed to direct my focus to) and cross-referencing with the tap to fly demo on Phaser for Desktop (super helpful, as the demo code is so clean and minimal). In stripping back the code for Level 2, we were able to get this level completed in 2.5 hours.
 
 ### I managed to fix the flames in Level 3 by accident?
-The flame demo from Phaser.io (linked in resources) looked so cool, and I wanted to implement it in the Boss Fight in Level 3.
+The flame demo from Phaser.io (linked in resources) looked so cool, and I wanted to implement it in the Boss Fight in Level 3. I had already set up the particle effect for casting attack spells, and exploding/destroying shadow threats in Level 1, as well as the gravity-directed attack dynamics (so that if you shoot, the shot actually hits the target instead of diffusing into 'thin air'). So, in my head, adding a 'mask' inspired by the phaser.io flame demo would be an easy way to elevate our Boss Fight visuals ('easy' being the famous last word). 
 
 ### Jumping mechanics are actually a nightmare that I still need to fix:
 Something kept happening that kept taking away the double-jump dynamic I had coded in initially for Level 1, and subsequently affected the jump dynamic to dodge in Level 3. This wasn't a major problem, as even if you only dodged 50% of the time in Level 3, you still beat the dragon - however this may pose greater issues in Medium and Hard modes that it does in the Easy mode. 
 
 ### Backend is actually really hard:
-Having avoided needing to ask for help, a member of the team who's game got banned helped me in the last few minutes of submission when all my backend code broke, I couldn't make my URL work, and I was about to cry. The speed they went through my checks was off the charts, and although they couldn't help me fix whatever I did wrong with the backend code, they helped me with the mistake I had made with creating my URL, and also introduced me to GitHub Desktop (which embarassingly I didn't know existed). I am so thankful for how helpful people were at this event, and how good they were at explaining problems.   
+Having avoided needing to ask for help for nearly 24 hours, I finally needed to. A member of the team who's game got banned from judging (super sad) helped me in the last few minutes when suddenly all my backend code broke, I couldn't make my URL work, and I was about to cry (remember me saying that I was going to keep it simple? Hahahaha). The y went through my errors so fast and were amazing at explaining the issues to me. Although they couldn't help me fix whatever I did wrong with the backend code (I think I wrote it in the wrong files/folders), they helped me with the mistake I had made in creating my URL, and also introduced me to GitHub Desktop (which embarassingly I didn't know existed). 
+   
+I am so thankful for how helpful people were at this event, and how good they were at explaining problems. There are still some backend bugs I need to fix. These fixes will happen gradually over the next few weeks/months (I'm in my final year of university at the moment). Debugging through the console has been a game changer, and it's also helpful for returning to a project (as I find this method acts as comments for errors).
 
-There are still some backend bugs I need to fix. These fixes will happen gradually over the next few weeks/months (I'm in my final year of university at the moment). Debugging through the console has been a game changer, and it's also helpful for returning to a project (as I find this method acts as comments for errors).
+## Non-Technical Things I Learnt From Attending My First In-Person Hackathon:
+
 
 
 
