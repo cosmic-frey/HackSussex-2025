@@ -207,7 +207,7 @@ I am so thankful for how helpful people were at this event, and how good they we
   - Framing your success in light of your experience shows how impressive your project truly is
 
 
-## Non-Technical Things I Learnt From Attending My First In-Person Hackathon (Some are a bit TMI):
+## Non-Technical Lessons From My First In-Person Hackathon:
 - Your project doesn't have to be 100% complete (as long as the majority of the functionality and visuals work)
 - Turns out, I stress sweat ALOT during time-pressured events.
   - Bring more deodorant
