@@ -149,6 +149,7 @@ AI is a great tool for learning, and helps to streamline a project under time pr
 - Summarising the work I had done so far in an .md for me to refer back to after taking breaks (toilet break, lunch break, chat break, walk break, sleep, etc)
 - Writing up instructions of ways I could implement changes as .md files, and answering questions I had on these potential changes.
 - Explaining why my code was not running (it's hard to get into the flow of Javascript syntax, and as I'm new to it I still regularly make mistakes - which is how you learn!)
+- Helping to create a .md file to outline the project's architecture, to help us focus on our priorities and to refer back to and edit later if bugs persisted after judging and prize giving had finished (which they have).
 - Explaining code errors (what they mean, how they could be fixed, and what I did to cause the error)
 - Suggesting fixes/ debugging ideas (I'm very new to debugging and this was the first time I properly focussed on learning to debug in console, which was very exciting!)
 - Rearranging my code blocks if I had put them in the wrong sequence (turns out AI can often be just as bad as me at this, but it can be helpful sometimes nonetheless)
