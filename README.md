@@ -7,7 +7,7 @@ Soooo we won three categories?? Mental! This was my first in person hackathon, o
 Before I get started, I want to highlight the other amazing entries (as well as the one that got banned because I thought it was one of the best). Check out all the other amazing entries in the Devpost link below:
 [https://hacksussex-gamejam-2025.devpost.com/project-gallery]
 
-**My two-cents as someone new to Hackathons:** I don't neccesarily agree with why one game got banned, as they changed the name prior to judging (so the reason for it being banned no longer applied prior to the ban). The mobile app they made was functional, interactive and funny - if I get a link to their GitHub I'll link it down below. 
+**My two-cents as someone new to Hackathons:** I don't neccesarily agree with why one game got banned, as they changed the name prior to judging (so the reason for it being banned no longer applied). The mobile app they made was functional, interactive and funny - if I get a link to their GitHub I'll link it down below. 
 
 ## The Game - Password Quest:
 
