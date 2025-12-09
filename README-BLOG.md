@@ -96,19 +96,62 @@ I have a tendency to over-reach in projects and not get them finished (never tak
 This was actually a whole crisis I had when researching ways to make video games. I knew what scratch was and I know how to make noughts and crosses with C++ (kinda) and... well that was about it to be honest.   
 
 ### Why not Python?
-Initially I wanted to make a game using Pygame. I downloaded the Al Sweigart book "Making games with Python & Pygame", watched youtube videos, read through demos, worked through mini-projects in codex.io - then I actually looked at previous winning submissions from 2024 and 2023. None of them used Python. This set off some warning bells and I started watching videos of people talking about making winning games for hackathons and why Pygame did not work. Turns out it's slow, prone to crashing, the errors are hard to work through, and there's a limit to the technical effects you can utilise. Additionally, one of the previous winners for The HackSussex GameJam actually wrote about how bad python had been and how they had to learn to use unity and make a new game in six hours. This did not sound ideal, and I fear I may have cried if that happened to me.  
+Initially I wanted to make a game using Pygame. I downloaded the Al Sweigart book "Making games with Python & Pygame", watched youtube videos, read through demos, worked through mini-projects in codex.io - then I actually looked at previous winning submissions from 2024 and 2023. None of them used Python. This set off some warning bells and I started watching videos of people talking about making winning games for hackathons and why Pygame did not work. Turns out it's slow, prone to crashing, the errors are hard to work through, and there's a limit to the technical effects you can utilise. Additionally, one of the blogs I read talked about how bad pygame had been at a hackathon, and how they had to learn to use Unity and make a new game in six hours. This did not sound ideal, and I fear I may have cried if that happened to me.  
 
 ### Why not Godot?   
 This was the crisis I had the evening before the competition. I have some friends who are starting their own video game business- what are they using? Godot. Everyone seems to be using it, so it must be good....right? That's what I presumed initially too. It looked like an amazing way to make a game where you got visual output immediately, PLUS godscript is similar to Python so this seemed like a huge win (maybe my teammate could help with the code afterall!). However, I have trust issues (at a healthy level I promise), so I initiated a deep dive into why Godot may be a bad idea. Initially, I couldnt find anything obvious, so I started watching tutorial videos and worked demos of how a game can be made. Through watching these videos, something stuck out for me immediately - all the processes involved seemed so interconnected and dependent on one another. This scared me a bit as, although obviously I'm awesome at coding, I'm also very new and I knew that I would be making a lot of mistakes throughout this competition - the last thing I wanted was for one little syntax error to ruin everything. 
 
 ### Why Phaser:
-Whilst using my partner as a rubber duck to talk this through (thanks Steve), I realised that what I really wanted was a language where everything is spaced out seperately in a clear and organised way - just like my Tamaghosty project!. But - Javascript is just visual, you can't make games with it... right???   
+Whilst using my partner as a rubber duck to talk this through (thanks Steve), I realised that what I really wanted was a language where everything is spaced out seperately in a clear and organised way - just like my Tamaghosty project!. But - Javascript is just for front-end, you can't make games with it... right???   
    
-Yeah so turns out (through asking GitHub copilot if you can make a game with Javascript) that Phaser very much exists (my newbie-ness shining through, I promise I'm learning). On the train ride to Brighton (I got up at 5:30am to arrive at 9:15am) I researched as much as I could about Phaser. At that point I was about 60% sure we were going to use Phaser, but I needed to make sure that the pros outweighed the cons.  
+Yeah so turns out (through asking GitHub copilot if you can make a game with Javascript) that Phaser very much exists (my newbie-ness shining through, I promise I'm learning). On the train ride to Brighton (I got up at 5:30am to arrive at 9:15am) I researched as much as I could about Phaser. At that point I was about 60% sure we were going to use Phaser, but I needed to make sure that the pros outweighed the cons. The shear amount of content and resources for Phaser, and asking my teammate for his opinion after laying out the pros and cons swayed me to make the final decision.   
+
+## The Planning Process:
+I took down physical notes in the opening ceremony, and took photos of word-heavy slides (this was helpful as only one of the presentations were posted on the Discord). The MLH judging criteria, so we had a rough idea of what software we could implement in our project and what prizes they led to, but the additional judging criteria (for the HackSussex Theme, Hackathons UK and BCS Chartered Institute for IT) was new to us.    
+    
+After installing all our packages (see the 'Challenges' section for details as to why this stage took so long), implementing the basic backbone of our code (with the help of resources supplied by Phaser for Desktop), and making initial loading screens, we got to work brainstorming on paper. We knew that we wanted to make something fun and narrative, and we knew that we had to keep it simple. The initial idea was that we would make two levels (what is now Level 1 and Level 3) and if we had time we would add an extra level (what is now Level 2), and the story of Mushy (our magical mushroom protagonist) developed very quickly alongside rough sketches of movement dynamics in the game.    
+
+We broke down every stage of the development process and turned these broken-down tasks into to-do lists, so that our plans didn't get too complicated or overwhelming. These to-do lists were updated and amended regularly in response to new ideas or issues, and were placed between us on the table so that we could quickly glance down and see where each of us were in the creation process. In addition to this, I also took notes on paper throughout the competition (as I find this helps me learn and think quicker than typing my notes), detailing the logic of any physics/mechanics that proved to be more complicated than initially anticipated, and noting down what formatting worked and what didn't. 
+
+## Why Phaser Worked:
+Obviously I used a lot of resources, and could not have completed this project without access to the internet and GitHub copilot (AI) to streamline our process. Phaser (as I already may have mentioned) has so many open-source resources, and so many examples of how to implement code for different features. For someone who needs to work visually and see how code is implemented, these examples were a godsend. I have linked below every webpage I used to find resources and worked examples of code, however I also used the examples within the windows launcher for Phaser (files for these examples and labelled trial in my repo). 
+   
+### Helpful Resources for Phaser:
+- Making your first Phaser game (parts 1-10): [https://phaser.io/tutorials/making-your-first-phaser-3-game/part1]
+- Getting started with Phaser: [https://docs.phaser.io/phaser/getting-started/what-is-phaser]
+- Used as a reference for what should be in my GitHub Repository: [https://github.com/ourcade/phaser3-vite-template]
+- Particle Effects: [https://docs.phaser.io/phaser/concepts/gameobjects/particles]
+- So many effects (also amazing particle-effect examples): [https://rexrainbow.github.io/phaser3-rex-notes/docs/site/particles/]
+- Helpful for game objects (and particle-effects...again): [https://deepwiki.com/phaserjs/phaser/4.3-particle-systems]
+- Fire effects: [https://phaser.io/examples/v3.85.0/game-objects/particle-emitter/view/fire-effects]
+- Gravity Processor (super cool magic effect!): [https://phaser.io/examples/v3.85.0/game-objects/particle-emitter/view/gravity-processor]
+- Snaking-line glittery magic effect: [https://phaser.io/examples/v3.85.0/game-objects/particle-emitter/view/interpolation-ease]
+- Flare-Effects: [https://phaser.io/examples/v3.85.0/game-objects/particle-emitter/view/emit-zone-loop]
+- Space Raiders shooting effect (helpful for gravity-informed attacks/shooting): [https://phaser.io/examples/v3.85.0/game-objects/particle-emitter/view/emit-zone-loop]
+- Health Bars for fights/battles: [https://phaser.io/examples/v3.85.0/game-objects/graphics/view/health-bars-demo]
+- Adding effects to objects (detailed guide): [https://help-v3.phasereditor2d.com/scene-editor/shader-effects-add-fx.html]
+- Decribing the process of making a lava platformer (I was more interested in the physics): [https://codepal.ai/chat/query/RnJxvdLY/build-a-lava-platformer-game-with-phaser]
+- Super detailed guides on making platformer games in Phaser: [https://digitherium.com/blog/category/platformer-series/]
+- Making Layered backgrounds: [https://www.joshmorony.com/how-to-create-a-parallax-background-in-phaser/]
+- Using images: [https://docs.phaser.io/phaser/concepts/gameobjects/image]
+- Shooting from a point: [https://phaser.io/examples/v3.85.0/physics/arcade/view/velocity-from-angle]
+- Collecting objects: [https://medium.com/@alizah.lalani/collecting-objects-in-phaser-3-platformer-games-using-tiled-4e9298cbfc85]
+- Helpful for collisions: [https://www.lessmilk.com/phaser-game-tutorial/]
+- Phaser for Desktop, helpful demos for game dynamics (eg: tap to fly/flappy bird mechanics): [https://phaser.io/download]
 
 
-## Planning process:
-After installing all our packages, implementing the basic backbone of our code (with the help of resources supplied by Phaser for windows), and making initial loading screens, we got to work brainstorming on paper. 
+## Use of AI:   
+AI is a great tool for learning, and helps to streamline a project under time pressure. I am very open about my use of AI as a learning tool, and AI helped me a lot over the past month in familiarising myself with Javascript.   
+### What AI was helpful for:
+- Adding comments (as my team-mate does not know javascript and there would not have been enough time for me to add comments for every block of code I wrote)
+- Summarising the work I had done so far in an .md for me to refer back to after taking breaks (toilet break, lunch break, chat break, walk break, sleep, etc)
+- Writing up instructions of ways I could implement changes in .md files
+- Explaining why my code was not running (it's hard to get into the flow of Javascript syntax, and as I'm new to it I still regularly make mistakes - which is how you learn!)
+- Explaining code errors (what they mean and how they could be fixed)
+- Suggesting fixes/ debugging ideas (I'm very new to debugging and this was the first time I learnt to debug in console, which was very exciting!)
+- Rearranging my code blocks if I had put them in the wrong sequence (turns out AI can often be just as bad as me at this, but it can be helpful sometimes)
+- Writing up instructions of how to use Auth0, Cloudflare, Vultr and ElevenLabs (so I didn't have to waste time googling in the last 30 mins)
+
 
 ## Challenges we ran into:
 ### We forgot to reload Powershell for two hours, so we thought packages hadn't installed properly:
@@ -133,21 +176,10 @@ Having avoided needing to ask for help, a member of the team who's game got bann
 
 
 
-## Why Phaser Worked:
-Obviously I used a lot of resources, and could not have completed this project without access to the internet and GitHub copilot (AI) to streamline our process. Phaser (as I already may have mentioned) has so many open-source resources, and so many examples of how to implement code for different features. For someone who needs to work visually and see how code is implemented, these examples were a godsend. I have linked below every webpage I used to find resources and worked examples of code, however I also used the examples within the windows launcher for Phaser (files for these examples and labelled trial in my repo).
+
   
 
-## Use of AI:   
-AI is a great tool for learning, and helps to streamline a project under time pressure. I am very open about my use of AI as a learning tool, and AI helped me a lot over the past month in familiarising myself with Javascript.   
-### What AI was helpful for:
-- Adding comments (as my team-mate does not know javascript and there would not have been enough time for me to add comments for every block of code I wrote)
-- Summarising the work I had done so far in an .md for me to refer back to after taking breaks (toilet break, lunch break, chat break, walk break, sleep, etc)
-- Writing up instructions of ways I could implement changes in .md files
-- Explaining why my code was not running (it's hard to get into the flow of Javascript syntax, and as I'm new to it I still regularly make mistakes - which is how you learn!)
-- Explaining code errors (what they mean and how they could be fixed)
-- Suggesting fixes/ debugging ideas (I'm very new to debugging and this was the first time I learnt to debug in console, which was very exciting!)
-- Rearranging my code blocks if I had put them in the wrong sequence (turns out AI can often be just as bad as me at this, but it can be helpful sometimes)
-- Writing up instructions of how to use Auth0, Cloudflare, Vultr and ElevenLabs (so I didn't have to waste time googling in the last 30 mins)
+
 
 
 
