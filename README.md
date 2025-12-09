@@ -36,7 +36,7 @@ These winning categories were:
   - The best game that is deployed to the cloud with Vultr wins!
    
 ## Game structure - Password Quest:  
-(This is a written breakdown of our game structure however, including video game stills if you are a more visual learner.)  
+(This is a written breakdown of our game structure, including video game stills for visual learners.)  
    
 **1) Intro-Video:**    
 The intro video sets the scene for the plot. To make this we used AI generated art that we pixelised for the opening scene, Canva, Piskel (for the dragon and crying scene) and ElevenLabs for the narration and background music.    
