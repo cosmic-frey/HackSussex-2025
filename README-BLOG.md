@@ -155,40 +155,59 @@ AI is a great tool for learning, and helps to streamline a project under time pr
 
 
 ## Challenges we ran into:
-### We forgot to refresh Powershell for two hours, so we thought packages hadn't installed properly:
+### 1) We forgot to refresh Powershell for two hours, so we thought packages hadn't installed properly:
 Evident from the sub-heading. Two. Full. Hours. Time I could have used later to fix our backend bugs. This was a learning opportunity, because sometimes the problems that pop up are because you overlooked the 'easy' steps initially. 
 
-### I still don't quite understand why I kept getting a node.js audit error, but ignoring it worked fine:
+### 2) I still don't quite understand why I kept getting a node.js audit error, but ignoring it worked fine:
 This is something I need to look into, my code worked fine but I do need to run an audit check.
 
-### I kept breaking the intro-video:
+### 3) I kept breaking the intro-video:
 Integrating audio with video clips, directly in Javascript, is so much harder than adding in sound effects for actions or effects. Initially I wanted to make the video in Canva (along with the audio) then just load it for the intro-video. However, the loading of video clips was far too delayed and would cut off the audio/video or the audio and video would load seperately and un-sync. This was even a problem for shorter clips, so the video scenes had to be compiled/made directly in Javascript. I got a weird bug in rendering the Mushroom_cry sprite, where a blue bar appeared above (there is no blue in the line above this sprite sheet, I still don't know how to fix this).
 
-### The physics kept going wrong in Level 1:  
+### 4) The physics kept going wrong in Level 1:  
 Level 1 took the longest amount of time to make (nearly all of day 1, 12pm - 10pm), far longer than the creation of Levels 2 and 3. This was primarily because the actions, dynamics and physics defined in Level 1 helped to speed up the creation of Levels 2 and 3 (such as: gravity-driven shooting for spell-casting and fire, coin-counting, shadow threat dynamics, jumping, implementing sliding screens, etc). 
 
-### Coin-counting kept multiplying instead of adding and it made me cry:
+### 5) Coin-counting kept multiplying instead of adding and it made me cry:
 
-### I kept breaking level 2:
+### 6) I kept breaking level 2:
 Level 2 kept breaking because I over-complicated the mechanics of this level. The screen would stop sliding, gravity would pull all objects off the bottom of the screen, shadow threats would not load, etc. I fixed these bugs by completely stripping back my code, writing down exactly what physics/mechanics I wanted for each of the components (to find the code blocks I needed to direct my focus to) and cross-referencing with the tap to fly demo on Phaser for Desktop (super helpful, as the demo code is so clean and minimal). In stripping back the code for Level 2, we were able to get this level completed in 2.5 hours.
 
-### I managed to fix the flames in Level 3 by accident?
+### 7) I managed to fix the flames in Level 3 by accident?
 The flame demo from Phaser.io (linked in resources) looked so cool, and I wanted to implement it in the Boss Fight in Level 3. I had already set up the particle effect for casting attack spells, and exploding/destroying shadow threats in Level 1, as well as the gravity-directed attack dynamics (so that if you shoot, the shot actually hits the target instead of diffusing into 'thin air'). So, in my head, adding a 'mask' inspired by the phaser.io flame demo would be an easy way to elevate our Boss Fight visuals ('easy' being the famous last word). 
 
-### Jumping mechanics are actually a nightmare that I still need to fix:
+### 8) Jumping mechanics are actually a nightmare that I still need to fix:
 Something kept happening that kept taking away the double-jump dynamic I had coded in initially for Level 1, and subsequently affected the jump dynamic to dodge in Level 3. This wasn't a major problem, as even if you only dodged 50% of the time in Level 3, you still beat the dragon - however this may pose greater issues in Medium and Hard modes that it does in the Easy mode. 
 
-### Backend is actually really hard:
+### 9) Backend is actually really hard:
 Having avoided needing to ask for help for nearly 24 hours, I finally needed to. A member of the team who's game got banned from judging (super sad) helped me in the last few minutes when suddenly all my backend code broke, I couldn't make my URL work, and I was about to cry (remember me saying that I was going to keep it simple? Hahahaha). The y went through my errors so fast and were amazing at explaining the issues to me. Although they couldn't help me fix whatever I did wrong with the backend code (I think I wrote it in the wrong files/folders), they helped me with the mistake I had made in creating my URL, and also introduced me to GitHub Desktop (which embarassingly I didn't know existed). 
    
 I am so thankful for how helpful people were at this event, and how good they were at explaining problems. There are still some backend bugs I need to fix. These fixes will happen gradually over the next few weeks/months (I'm in my final year of university at the moment). Debugging through the console has been a game changer, and it's also helpful for returning to a project (as I find this method acts as comments for errors).
 
-## Feedback We Got, and What Worked In Judging:
-### Our approach:
+## What Worked In Judging (from Judge-feedback):
+- **We made something accessible:**
+  - We made something for real people that was simple to use. Instructions were repeated multiple times (Game intro page, Level intro pages, Level Pages during playing) for ease of use, and game mechanics weren't overly complicated.
+- **We focussed on finding the simplest way to Educate users:**
+  - Our main focus was to make our game accessible and give a broad introduction to internet safety that handled the basics, which included the dangers of online scams and the importance of warning others (altruism). Whilst obvious to us, the altruism element is often overlooked and was looked upon favourably.
+- **Our Presentation to the Judges was simple and straight to the point:**
+  - We introduced the background of our project quickly and briefly, detailing what categories we focussed on, the themes we hit and the basic outline (how many levels and aims).
+  - We briefly discussed our planning process
+  - We then demoed the game, level by level, talking through the mechanics involved, why making it was interesting and why Phaser was useful for what we wanted to achieve.
+  - We answered questions as they came up during the demo, and were confident in our answers.
+  - We both knew how our project worked, any why it worked.
+- **In our responses, we focussed on hitting the judging points:**
+  - Why was there a lot of learning involved in this project?
+  - Why our project was impressive (links to highlighting inexperience - below)
+  - Highlighting that our project was usable
+  - What we were proud of
+  - Giving a few examples of things that went wrong
+  - Talking through the code logic in judge follow-up questions (links back to the importance of knowing how your code actually works)
+- **Highlighting our inexperience:**
+  - If you don't tell the judges that this is your first time making a computer game/using a language/making pixel art/etc then they won't ever know!
+  - Framing your success in light of your experience shows how impressive your project truly is
 
-### What worked (from feedback):
 
 ## Non-Technical Things I Learnt From Attending My First In-Person Hackathon (Some are a bit TMI):
+- Your project doesn't have to be 100% complete (as long as the majority of the functionality and visuals work)
 - Turns out, I stress sweat ALOT during time-pressured events.
   - Bring more deodorant
   - Bring body spray
