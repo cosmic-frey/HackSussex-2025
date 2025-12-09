@@ -142,37 +142,45 @@ Obviously I used a lot of resources, and could not have completed this project w
 
 ## Use of AI:   
 AI is a great tool for learning, and helps to streamline a project under time pressure. I am very open about my use of AI as a learning tool, and AI helped me a lot over the past month in familiarising myself with Javascript.   
+   
 ### What AI was helpful for:
-- Adding comments (as my team-mate does not know javascript and there would not have been enough time for me to add comments for every block of code I wrote)
+- Adding comments (My teammate did not know Javascript and there would not have been enough time for me to add comments for every block of code I wrote in the 24hour period)
 - Summarising the work I had done so far in an .md for me to refer back to after taking breaks (toilet break, lunch break, chat break, walk break, sleep, etc)
-- Writing up instructions of ways I could implement changes in .md files
+- Writing up instructions of ways I could implement changes as .md files, and answering questions I had on these potential changes.
 - Explaining why my code was not running (it's hard to get into the flow of Javascript syntax, and as I'm new to it I still regularly make mistakes - which is how you learn!)
-- Explaining code errors (what they mean and how they could be fixed)
-- Suggesting fixes/ debugging ideas (I'm very new to debugging and this was the first time I learnt to debug in console, which was very exciting!)
-- Rearranging my code blocks if I had put them in the wrong sequence (turns out AI can often be just as bad as me at this, but it can be helpful sometimes)
+- Explaining code errors (what they mean, how they could be fixed, and what I did to cause the error)
+- Suggesting fixes/ debugging ideas (I'm very new to debugging and this was the first time I properly focussed on learning to debug in console, which was very exciting!)
+- Rearranging my code blocks if I had put them in the wrong sequence (turns out AI can often be just as bad as me at this, but it can be helpful sometimes nonetheless)
 - Writing up instructions of how to use Auth0, Cloudflare, Vultr and ElevenLabs (so I didn't have to waste time googling in the last 30 mins)
 
 
 ## Challenges we ran into:
 ### We forgot to reload Powershell for two hours, so we thought packages hadn't installed properly:
+Evident from the sub-heading. Two. Full. Hours. Time I could have used later to fix our my backend bugs. This was a learning opportunity, because sometimes the problems that pop up are because you've overlooked the 'easy' steps. 
 
 ### I still don't quite understand why I kept getting a node.js audit error, but ignoring it worked fine:
+This is something I need to look into, my code worked fine but I do need to run an audit check.
 
 ### I kept breaking the intro-video:
+Integrating audio with video clips, directly in Javascript, is so much harder than adding in sound effects for actions or effects. Initially I wanted to make the video in Canva (along with the audio) then just load it for the intro-video. However, the loading of video clips was far too delayed and would cut off the audio/video or the audio and video would load seperately and un-sync. This was even a problem for shorter clips, so the video scenes had to be compiled/made directly in Javascript. I got a weird bug in rendering the Mushroom_cry sprite, where a blue bar appeared above (there is no blue in the line above this sprite sheet, I still don't know how to fix this).
 
 ### The physics kept going wrong in Level 1:  
-
+Level 1 took the longest amount of time to make (nearly all of day 1, 12pm - 10pm).  
 
 ### Coin-counting kept multiplying instead of adding and it made me cry:
 
 ### I kept breaking level 2:
 
 ### I managed to fix the flames in Level 3 by accident?
+The flame demo from Phaser.io (linked in resources) looked so cool, and I wanted to implement it in the Boss Fight in Level 3.
 
 ### Jumping mechanics are actually a nightmare that I still need to fix:
+Something kept happening that kept taking away the double-jump dynamic I had coded in initially for Level 1, and subsequently affected the jump dynamic to dodge in Level 3. This wasn't a major problem, as even if you only dodged 50% of the time in Level 3, you still beat the dragon - however this may pose greater issues in Medium and Hard modes that it does in the Easy mode. 
 
 ### Backend is actually really hard:
-Having avoided needing to ask for help, a member of the team who's game got banned helped me in the last few minutes of submission when all my backend code broke, I couldn't make my URL work, and I was about to cry. The speed they went through my checks was off the charts, and although they couldn't help me fix whatever I did wrong with the backend code, they helped me with the mistake I had made with creating my URL, and also introduced me to GitHub Desktop (which embarassingly I didn't know existed). I am so thankful for how helpful people were at this event, and how good they were at explaining problems (qualities that you struggle to find at my university).
+Having avoided needing to ask for help, a member of the team who's game got banned helped me in the last few minutes of submission when all my backend code broke, I couldn't make my URL work, and I was about to cry. The speed they went through my checks was off the charts, and although they couldn't help me fix whatever I did wrong with the backend code, they helped me with the mistake I had made with creating my URL, and also introduced me to GitHub Desktop (which embarassingly I didn't know existed). I am so thankful for how helpful people were at this event, and how good they were at explaining problems.   
+
+There are still some backend bugs I need to fix. These fixes will happen gradually over the next few weeks/months (I'm in my final year of university at the moment). Debugging through the console has been a game changer, and it's also helpful for returning to a project (as I find this method acts as comments for errors).
 
 
 
